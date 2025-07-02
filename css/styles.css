@@ -25,6 +25,7 @@
 
         --color-text: #f1f1f1;
         --color-highscore: #96a921;
+        --color-highscore: #96a921;
         --color-win: #1ee740;
         --color-loss: #e71e40;
         --color-snake: #96a921;
@@ -90,6 +91,8 @@ button {
 
 .highestscore-container {
         color: var(--color-highscore);
+.highestscore-container {
+        color: var(--color-highscore);
 }
 
 .footer-restartpause {
@@ -132,11 +135,24 @@ button {
         }
 }
 
+@media (max-width: 500px) {
+        :root {
+                --font-size-h1: 1.85rem;
+                --font-size-h2: 0.85rem;
+                --font-size-btn: 0.85rem;
+                --font-size-text: 0.85rem;
+        }
+}
+
 @media (max-width: 400px) {
         :root {
                 --font-size-h1: 1.75rem;
                 --font-size-h2: 1rem;
                 --font-size-btn: 1rem;
                 --font-size-text: 1rem;
+                --font-size-h1: 1.75rem;
+                --font-size-h2: 0.75rem;
+                --font-size-btn: 0.75rem;
+                --font-size-text: 0.75rem;
         }
 }
