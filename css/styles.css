@@ -22,6 +22,11 @@
         --font-family-global: monospace, system-ui;
 
         --color-text: #f1f1f1;
+        --color-score: #96a921;
+        --color-win: #1ee740;
+        --color-loss: #e71e40;
+        --color-snake: #96a921;
+        --color-food: #77303a;
         --bg-color: #1f1f1f;
 }
 
@@ -78,6 +83,10 @@ button {
 .header-score,
 .header-message {
         font-size: var(--font-size-text);
+}
+
+.score-container {
+        color: var(--color-score);
 }
 
 .footer-restartpause {
