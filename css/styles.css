@@ -1,0 +1,121 @@
+*,
+*::before,
+*::after {
+        padding: 0;
+        margin: 0;
+        border: none;
+        outline: none;
+        box-sizing: border-box;
+}
+
+:root {
+        --flex-gap-btn: 0.5em;
+        --padding-btn: 0.75em 1em;
+        --border-btn: 2px solid #f1f1f1;
+        --margin-btn: 0.75em auto;
+        
+        --font-size-h1: 3rem;
+        --font-size-h2: 1.5rem;
+        --font-size-btn: 1.25rem;
+        --font-size-text: 1rem;
+
+        --font-family-global: monospace, system-ui;
+
+        --color-text: #f1f1f1;
+        --bg-color: #1f1f1f;
+}
+
+body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        min-height: 100svh;
+        padding: 1em;
+        font-family: var(--font-family-global);
+        color: var(--color-text);
+        background-color: var(--bg-color);
+}
+
+button {
+        padding: var(--padding-btn);
+        border: var(--border-btn);
+        font-size: var(--font-size-btn);
+        font-family: inherit;
+        cursor: pointer;
+        color: inherit;
+}
+
+.header,
+.footer,
+.gameboard {
+        width: 75%;
+        text-align: center;
+}
+
+.header-title {
+        font-size: var(--font-size-h1);
+}
+
+.header-subtitle {
+        font-size: var(--font-size-h2);
+}
+
+.header-instructionsbtn,
+.footer-playbtn {
+        min-width: 100%;
+        margin: var(--margin-btn);
+}
+
+.header-instructionsbtn {
+        background-color: #154063;
+}
+
+.footer-playbtn {
+        background-color: #043a0d;
+}
+
+.header-score,
+.header-message {
+        font-size: var(--font-size-text);
+}
+
+.footer-restartpause {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--flex-gap-btn);
+}
+
+.footer-restartbtn,
+.footer-pausebtn {
+        display: block;
+        min-width: calc(50% - var(--flex-gap-btn));
+}
+
+.footer-restartbtn {
+        background-color: #631520;
+}
+
+.footer-pausebtn {
+        background-color: #806313;
+}
+
+@media (max-width: 600px) {
+        :root {
+                --font-size-h1: 2rem;
+                --font-size-h2: 1rem;
+                --font-size-btn: 1rem;
+                --font-size-text: 1rem;
+        }
+}
+
+@media (max-width: 400px) {
+        :root {
+                --font-size-h1: 1.5rem;
+                --font-size-h2: 0.75rem;
+                --font-size-btn: 0.75rem;
+                --font-size-text: 0.75rem;
+        }
+}
