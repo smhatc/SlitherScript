@@ -126,7 +126,7 @@ button {
 @media (max-width: 500px) {
         :root {
                 --font-size-h1: 2rem;
-                --font-size-h2: 1.15rem;
+                --font-size-h2: 1.125rem;
                 --font-size-btn: 1.125rem;
                 --font-size-text: 1.125rem;
         }
