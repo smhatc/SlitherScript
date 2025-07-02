@@ -55,6 +55,7 @@ button {
 .footer,
 .gameboard {
         width: 75%;
+        max-width: 750px;
         text-align: center;
 }
 
