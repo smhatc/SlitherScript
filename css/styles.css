@@ -11,15 +11,19 @@
 }
 
 :root {
+        --flex-gap-body: 0.75em;
         --flex-gap-btn: 0.5em;
+
+        --padding-body: 1em;
         --padding-btn: 0.75em 1em;
         --border-btn: 2px solid #f1f1f1;
+        --border-gameboard: 2px solid #f1f1f1;
         --margin-btn: 0.75em auto;
         
-        --font-size-h1: 4rem;
-        --font-size-h2: 2rem;
-        --font-size-btn: 1.5rem;
-        --font-size-text: 1.5rem;
+        --font-size-h1: 3rem;
+        --font-size-h2: 1.25rem;
+        --font-size-btn: 1.25rem;
+        --font-size-text: 1.25rem;
 
         --font-family-global: "VT323", monospace;
 
@@ -27,21 +31,27 @@
         --color-highscore: #96a921;
         --color-win: #1ee740;
         --color-loss: #e71e40;
-        --color-snake: #96a921;
-        --color-food: #77303a;
-        --bg-color: #1f1f1f;
+
+        --bg-color-global: #1f1f1f;
+        --bg-color-snake: #96a921;
+        --bg-color-food: #77303a;
+        --bg-color-instructionsbtn: #154063;
+        --bg-color-playbtn: #043a0d;
+        --bg-color-restartbtn: #631520;
+        --bg-color-pausebtn: #806313;
 }
 
 body {
         display: flex;
         flex-direction: column;
-        justify-content: space-evenly;
+        justify-content: center;
         align-items: center;
+        gap: var(--flex-gap-body);
         min-height: 100svh;
-        padding: 1em;
+        padding: var(--padding-body);
         font-family: var(--font-family-global);
         color: var(--color-text);
-        background-color: var(--bg-color);
+        background-color: var(--bg-color-global);
 }
 
 button {
@@ -61,6 +71,29 @@ button {
         text-align: center;
 }
 
+.gameboard {
+        display: grid;
+        grid-template-columns: repeat(20, 1fr);
+        grid-template-rows: repeat(20, 1fr);
+        aspect-ratio: 1 / 1;
+        max-height: calc(100svh - 500px);
+        border: var(--border-gameboard);
+}
+
+@media (max-height: 650px) {
+        .gameboard {
+                max-height: 50svh;
+        }
+}
+
+.gameboard-snake {
+        background-color: var(--bg-color-snake);
+}
+
+.gameboard-food {
+        background-color: var(--bg-color-food);
+}
+
 .header-title {
         font-size: var(--font-size-h1);
 }
@@ -76,16 +109,23 @@ button {
 }
 
 .header-instructionsbtn {
-        background-color: #154063;
+        background-color: var(--bg-color-instructionsbtn);
 }
 
 .footer-playbtn {
-        background-color: #043a0d;
+        background-color: var(--bg-color-playbtn);
 }
 
 .header-score,
 .header-message {
         font-size: var(--font-size-text);
+}
+
+.header-score {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0.25em;
 }
 
 .highestscore-container {
@@ -107,20 +147,11 @@ button {
 }
 
 .footer-restartbtn {
-        background-color: #631520;
+        background-color: var(--bg-color-restartbtn);
 }
 
 .footer-pausebtn {
-        background-color: #806313;
-}
-
-@media (max-width: 600px) {
-        :root {
-                --font-size-h1: 3rem;
-                --font-size-h2: 1.25rem;
-                --font-size-btn: 1.25rem;
-                --font-size-text: 1.25rem;
-        }
+        background-color: var(--bg-color-pausebtn);
 }
 
 @media (max-width: 500px) {
