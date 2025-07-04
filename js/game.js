@@ -1,6 +1,8 @@
 /*-------------- Constants -------------*/
 
 const gameBoardGrid = {columns: 21, rows: 21,};
+const winningScore = 1000;
+const foodScore = 25;
 
 /*---------- Variables (State) ---------*/
 
@@ -8,11 +10,9 @@ let gameStatus = "idle";
 let snake;
 let snakeDirection;
 let food;
+let gameSpeedDelay;
 let gameInterval;
-let gameSpeedDelay = 250;
-let winningScore = 1000;
-let foodScore = 25;
-let currentScore = 0;
+let currentScore;
 
 /*----- Cached Element References  -----*/
 
@@ -72,11 +72,13 @@ function generateFood() {
 
 function gameLoop() {
         moveSnake();
+        checkCollision();
         gameBoard.innerHTML = '';
         render();
 }
 
 function init() {
+        // JavaScript variables reset
         gameStatus = "running";
         snake =
         [
@@ -84,14 +86,18 @@ function init() {
         ];
         snakeDirection = "up";
         food = generateFood();
-        message.textContent = "[ Do your best! ]";
-        currentScore = 0;
-        renderScore();
-        // highestScore.textContent = ;
-        gameBoard.innerHTML = "";
-        render();
+        gameSpeedDelay = 250;
         clearInterval(gameInterval);
         gameInterval = setInterval(gameLoop, gameSpeedDelay);
+        currentScore = 0;
+
+        // DOM elements reset
+        message.textContent = "[ Do your best! ]";
+        // highestScore.textContent = ;
+        gameBoard.innerHTML = "";
+
+        // Function calls
+        render();
 }
 
 // Creates the snake or food cubes
@@ -118,24 +124,35 @@ function increaseScore() {
         renderScore();
 }
 
-function endGame() {
-        
+function endGame(reason) {
+        clearInterval(gameInterval);
+        gameStatus = "over";
+        if (reason === "wall") {
+                message.textContent = "[ Game over! You have run into a wall. ]";
+        } else if (reason === "snake") {
+                message.textContent = "[ Game over! You have run into yourself. ]";
+        }
 }
 
 function checkCollision() {
         const snakeHead = snake[0];
+        let whichCollision = "";
 
+        // Check if the snake has into a wall
         if (snakeHead.column < 1 ||
         snakeHead.column > gameBoardGrid.columns ||
         snakeHead.row < 1 ||
         snakeHead.row > gameBoardGrid.rows) {
-                endGame();
+                whichCollision = "wall";
+                endGame(whichCollision);
         }
 
+        // Check if the snake has run into itself
         for (let i = 1; i < snake.length; i++) {
                 if (snakeHead.column === snake[i].column &&
                 snakeHead.row === snake[i].row) {
-                        endGame();
+                        whichCollision = "snake";
+                        endGame(whichCollision);
                 }
         }
 }
@@ -193,6 +210,7 @@ function renderFood() {
 function render() {
         renderFood();
         renderSnake();
+        renderScore();
 }
 
 /*----------- Event Listeners ----------*/
