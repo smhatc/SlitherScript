@@ -16,8 +16,12 @@
 
         --padding-body: 1em;
         --padding-btn: 0.75em 1em;
+
         --border-btn: 2px solid #f1f1f1;
         --border-gameboard: 2px solid #f1f1f1;
+        --border-gameboard-win: 2px solid #1ee740;
+        --border-gameboard-loss: 2px solid #e71e40;
+
         --margin-btn: 0.75em auto;
         
         --font-size-h1: 3rem;
@@ -28,7 +32,7 @@
         --font-family-global: "VT323", monospace;
 
         --color-text: #f1f1f1;
-        --color-highscore: #96a921;
+        --color-scores: #96a921;
         --color-win: #1ee740;
         --color-loss: #e71e40;
 
@@ -59,6 +63,7 @@ button {
         border: var(--border-btn);
         font-size: var(--font-size-btn);
         font-family: inherit;
+        transition: all 0.4s ease;
         cursor: pointer;
         color: inherit;
 }
@@ -84,6 +89,14 @@ button {
         .gameboard {
                 max-height: 50svh;
         }
+}
+
+.gameboard-win {
+        border: var(--border-gameboard-win);
+}
+
+.gameboard-loss {
+        border: var(--border-gameboard-loss);
 }
 
 .gameboard-snake {
@@ -116,6 +129,11 @@ button {
         background-color: var(--bg-color-playbtn);
 }
 
+.btn-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+}
+
 .header-score,
 .header-message {
         font-size: var(--font-size-text);
@@ -136,8 +154,9 @@ button {
         margin-top: 0.25em;
 }
 
+.score-container,
 .highestscore-container {
-        color: var(--color-highscore);
+        color: var(--color-scores);
 }
 
 .footer-restartpause {

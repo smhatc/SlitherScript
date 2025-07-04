@@ -18,6 +18,10 @@ let currentScore;
 
 // UI controls
 const uiControls = document.querySelectorAll(".ui-control");
+const instructionsBtn = document.querySelector(".header-instructionsbtn");
+const playBtn = document.querySelector(".footer-playbtn");
+const restartBtn = document.querySelector(".footer-restartbtn");
+const pauseBtn = document.querySelector(".footer-pausebtn");
 
 // Game display elements
 const message = document.querySelector(".header-message");
@@ -35,6 +39,24 @@ function handleClick(event) {
         if (event.target.classList.contains("footer-playbtn")) {
                 if (gameStatus === "idle") {
                         init();
+                        playBtn.classList.add("btn-disabled");
+                        restartBtn.classList.remove("btn-disabled");
+                        pauseBtn.classList.remove("btn-disabled");
+                } else if (gameStatus === "paused") {
+                        // Add resume logic here
+                        return;
+                }
+        } else if (event.target.classList.contains("footer-restartbtn")) {
+                if (gameStatus !== "idle") {
+                        init();
+                }
+        } else if (event.target.classList.contains("footer-pausebtn")) {
+                if (gameStatus === "running") {
+                        // Add save game status logic here
+                        pauseBtn.classList.add("btn-disabled");
+                        playBtn.textContent = "RESUME";
+                        playBtn.classList.remove("btn-disabled");
+                        return;
                 }
         }
 }
@@ -98,6 +120,8 @@ function init() {
         message.textContent = `[ You need ${winningScore} points to win. Do your best! ]`;
         // highestScore.textContent = ;
         gameBoard.innerHTML = "";
+        gameBoard.classList.remove("gameboard-win");
+        gameBoard.classList.remove("gameboard-loss");
 
         // Function calls
         render();
@@ -133,12 +157,15 @@ function endGame(reason) {
         if (reason === "wall") {
                 message.classList.add("header-message-loss");
                 message.textContent = `[ Oops! You've run into a wall. Click "RESTART" to play again. ]`;
+                gameBoard.classList.add("gameboard-loss");
         } else if (reason === "snake") {
                 message.classList.add("header-message-loss");
                 message.textContent = `[ Oops! You've run into yourself. Click "RESTART" to play again. ]`;
+                gameBoard.classList.add("gameboard-loss");
         } else {
                 message.classList.add("header-message-win");
                 message.textContent = `[ Congratulations, you've won! Click "RESTART" to play again. ]`;
+                gameBoard.classList.add("gameboard-win");
         }
 }
 
