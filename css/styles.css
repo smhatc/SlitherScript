@@ -121,6 +121,14 @@ button {
         font-size: var(--font-size-text);
 }
 
+.header-message-win {
+        color: var(--color-win);
+}
+
+.header-message-loss {
+        color: var(--color-loss);
+}
+
 .header-score {
         display: flex;
         justify-content: space-between;

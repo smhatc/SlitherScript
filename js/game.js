@@ -40,21 +40,22 @@ function handleClick(event) {
 }
 
 function handleKeyMove(event) {
-        if (gameStatus === "running") {
+        const movementKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+        if (gameStatus === "running" && movementKeys.includes(event.key)) {
+                event.preventDefault();
                 switch (event.key) {
-                        case "ArrowUp":
+                        case movementKeys[0]:
                                 snakeDirection = "up";
                                 break;
-                        case "ArrowDown":
+                        case movementKeys[1]:
                                 snakeDirection = "down";
                                 break;
-                        case "ArrowRight":
-                                snakeDirection = "right";
-                                break;
-                        case "ArrowLeft":
+                        case movementKeys[2]:
                                 snakeDirection = "left";
                                 break;
-                        
+                        case movementKeys[3]:
+                                snakeDirection = "right";
+                                break;
                 }
         }
 }
@@ -72,6 +73,7 @@ function generateFood() {
 
 function gameLoop() {
         moveSnake();
+        checkWin();
         checkCollision();
         gameBoard.innerHTML = '';
         render();
@@ -92,7 +94,8 @@ function init() {
         currentScore = 0;
 
         // DOM elements reset
-        message.textContent = "[ Do your best! ]";
+        message.classList.remove("header-message-win", "header-message-loss");
+        message.textContent = `[ You need ${winningScore} points to win. Do your best! ]`;
         // highestScore.textContent = ;
         gameBoard.innerHTML = "";
 
@@ -128,9 +131,20 @@ function endGame(reason) {
         clearInterval(gameInterval);
         gameStatus = "over";
         if (reason === "wall") {
-                message.textContent = "[ Game over! You have run into a wall. ]";
+                message.classList.add("header-message-loss");
+                message.textContent = `[ Oops! You've run into a wall. Click "RESTART" to play again. ]`;
         } else if (reason === "snake") {
-                message.textContent = "[ Game over! You have run into yourself. ]";
+                message.classList.add("header-message-loss");
+                message.textContent = `[ Oops! You've run into yourself. Click "RESTART" to play again. ]`;
+        } else {
+                message.classList.add("header-message-win");
+                message.textContent = `[ Congratulations, you've won! Click "RESTART" to play again. ]`;
+        }
+}
+
+function checkWin() {
+        if (currentScore >= winningScore) {
+                endGame();
         }
 }
 
