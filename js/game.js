@@ -37,27 +37,54 @@ const gameBoard = document.querySelector(".gameboard");
 
 function handleClick(event) {
         if (event.target.classList.contains("footer-playbtn")) {
-                if (gameStatus === "idle") {
-                        init();
-                        playBtn.classList.add("btn-disabled");
-                        restartBtn.classList.remove("btn-disabled");
-                        pauseBtn.classList.remove("btn-disabled");
-                } else if (gameStatus === "paused") {
-                        // Add resume logic here
-                        return;
-                }
+                handlePlayBtn();
         } else if (event.target.classList.contains("footer-restartbtn")) {
-                if (gameStatus !== "idle") {
-                        init();
-                }
+                handleRestartBtn();
         } else if (event.target.classList.contains("footer-pausebtn")) {
-                if (gameStatus === "running") {
-                        // Add save game status logic here
-                        pauseBtn.classList.add("btn-disabled");
-                        playBtn.textContent = "RESUME";
-                        playBtn.classList.remove("btn-disabled");
-                        return;
-                }
+                handlePauseBtn();
+        }
+}
+
+function handlePlayBtn() {
+        if (gameStatus === "idle" &&
+        !playBtn.classList.contains("btn-disabled")) {
+                init();
+                playBtn.textContent = "RESUME";
+                playBtn.classList.add("btn-disabled");
+                restartBtn.classList.remove("btn-disabled");
+                pauseBtn.classList.remove("btn-disabled");
+        } else if (gameStatus === "paused" &&
+        !playBtn.classList.contains("btn-disabled")) {
+                gameStatus = "running";
+                gameInterval = setInterval(gameLoop, gameSpeedDelay);
+                playBtn.classList.add("btn-disabled");
+                pauseBtn.classList.remove("btn-disabled");
+                message.classList.remove("header-message-paused");
+                message.textContent = `[ You need ${winningScore} points to win. Do your best! ]`;
+                gameBoard.classList.remove("gameboard-paused");
+        }
+}
+
+function handleRestartBtn() {
+        if (gameStatus !== "idle" &&
+        !restartBtn.classList.contains("btn-disabled")) {
+                init();
+                playBtn.classList.add("btn-disabled");
+                pauseBtn.classList.remove("btn-disabled");
+                message.classList.remove("header-message-paused");
+        }
+}
+
+function handlePauseBtn() {
+        if (gameStatus === "running" &&
+        !pauseBtn.classList.contains("btn-disabled")) {
+                gameStatus = "paused";
+                clearInterval(gameInterval);
+                pauseBtn.classList.add("btn-disabled");
+                playBtn.classList.remove("btn-disabled");
+                message.classList.add("header-message-paused");
+                message.textContent = `[ Game is paused. Click "RESUME" to jump back in! ]`;
+                gameBoard.classList.add("gameboard-paused");
         }
 }
 
@@ -122,6 +149,7 @@ function init() {
         gameBoard.innerHTML = "";
         gameBoard.classList.remove("gameboard-win");
         gameBoard.classList.remove("gameboard-loss");
+        gameBoard.classList.remove("gameboard-paused");
 
         // Function calls
         render();
@@ -153,6 +181,7 @@ function increaseScore() {
 
 function endGame(reason) {
         clearInterval(gameInterval);
+        pauseBtn.classList.add("btn-disabled");
         gameStatus = "over";
         if (reason === "wall") {
                 message.classList.add("header-message-loss");

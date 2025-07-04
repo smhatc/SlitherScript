@@ -19,8 +19,9 @@
 
         --border-btn: 2px solid #f1f1f1;
         --border-gameboard: 2px solid #f1f1f1;
-        --border-gameboard-win: 2px solid #1ee740;
-        --border-gameboard-loss: 2px solid #e71e40;
+        --border-gameboard-win: 2px solid var(--color-win);
+        --border-gameboard-loss: 2px solid var(--color-loss);
+        --border-gameboard-paused: 2px solid var(--color-paused);
 
         --margin-btn: 0.75em auto;
         
@@ -35,6 +36,7 @@
         --color-scores: #96a921;
         --color-win: #1ee740;
         --color-loss: #e71e40;
+        --color-paused: #ebc55d;
 
         --bg-color-global: #1f1f1f;
         --bg-color-snake: #96a921;
@@ -99,6 +101,10 @@ button {
         border: var(--border-gameboard-loss);
 }
 
+.gameboard-paused {
+        border: var(--border-gameboard-paused);
+}
+
 .gameboard-snake {
         background-color: var(--bg-color-snake);
 }
@@ -145,6 +151,10 @@ button {
 
 .header-message-loss {
         color: var(--color-loss);
+}
+
+.header-message-paused {
+        color: var(--color-paused);
 }
 
 .header-score {
