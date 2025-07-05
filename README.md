@@ -1,7 +1,7 @@
 # 🐍 SlitherScript
 The official GitHub repository for SlitherScript, a simple yet fun snake game built with plain HTML, CSS, and JavaScript. Give it a play and have some fun!
 
-<img src="" alt="Screenshot of the Completed Game" width="" height="">
+<img src="assets/images/completed-game-screenshot.png" alt="Screenshot of the Completed Game">
 
 ## 🔍 Background Information
 I am creating this project as part of my studies at General Assembly's software engineering bootcamp.
@@ -18,7 +18,7 @@ The reason I chose to create a snake game as my project is simply because I foun
 2. Press any of the four arrow keys on your keyboard to control the snake's movement.
 3. Move over (eat) the food that spawns to grow your snake and score.
 4. Avoid running into any walls or yourself.
-5. Click the "PAUSE" button to save your progress in case you need to take a break.
+5. Click the "PAUSE" button to stop the game in case you need to take a break.
 6. Once you reach 1000 points, you've won!
 7. Click the "RESTART" button to play again.
 
@@ -28,6 +28,11 @@ The reason I chose to create a snake game as my project is simply because I foun
 - JavaScript.
 
 ## 📚 Attributions
-
+- Google Fonts for the game font (VT323). Check it out!
 
 ## 🤔 Next Steps
+- Add special food which awards more points than regular food.
+- Make it so that food which spawns in difficult positions (e.g. near walls or snake) awards more points.
+- Allow players to save their progress locally beyond the current browser tab session.
+- Add other kinds of progressive difficulty increase mechanics than simply increasing the speed.
+- Add a game currency of some kind which allows players to purchase customizations for their snake (e.g. custom colors).
