@@ -1,10 +1,14 @@
-/*-------------- Constants -------------*/
+/* -------------------------------------------------- */
+// CONSTANTS
+/* -------------------------------------------------- */
 
 const gameBoardGrid = {columns: 21, rows: 21,};
 const winningScore = 1000;
 const foodScore = 25;
 
-/*---------- Variables (State) ---------*/
+/* -------------------------------------------------- */
+// VARIABLES (STATE)
+/* -------------------------------------------------- */
 
 let gameStatus = "idle";
 let snake;
@@ -12,24 +16,25 @@ let snakeDirection;
 let food;
 let gameSpeedDelay;
 let gameInterval;
-let currentScore;
+let highestScore = 0;
+let currentScore = 0;
 
-/*----- Cached Element References  -----*/
+/* -------------------------------------------------- */
+// CACHED ELEMENT REFERENCES
+/* -------------------------------------------------- */
 
 // UI controls
-const uiControls = document.querySelectorAll(".ui-control");
-const instructionsBtn = document.querySelector(".header-instructionsbtn");
-const playBtn = document.querySelector(".footer-playbtn");
-const restartBtn = document.querySelector(".footer-restartbtn");
-const pauseBtn = document.querySelector(".footer-pausebtn");
+const uiControlElements = document.querySelectorAll(".ui-control");
+const instructionsBtnElement = document.querySelector(".header-instructionsbtn");
+const playBtnElement = document.querySelector(".footer-playbtn");
+const restartBtnElement = document.querySelector(".footer-restartbtn");
+const pauseBtnElement = document.querySelector(".footer-pausebtn");
 
 // Game display elements
-const message = document.querySelector(".header-message");
-const score = document.querySelector(".score-container");
-const highestScore = document.querySelector(".highestscore-container");
-const gameBoard = document.querySelector(".gameboard");
-
-/*-------------- Functions -------------*/
+const messageElement = document.querySelector(".header-message");
+const highestScoreElement = document.querySelector(".highestscore-container");
+const scoreElement = document.querySelector(".score-container");
+const gameBoardElement = document.querySelector(".gameboard");
 
 /* -------------------------------------------------- */
 // EVENT HANDLER FUNCTIONS
@@ -47,44 +52,44 @@ function handleClick(event) {
 
 function handlePlayBtn() {
         if (gameStatus === "idle" &&
-        !playBtn.classList.contains("btn-disabled")) {
+        !playBtnElement.classList.contains("btn-disabled")) {
                 init();
-                playBtn.textContent = "RESUME";
-                playBtn.classList.add("btn-disabled");
-                restartBtn.classList.remove("btn-disabled");
-                pauseBtn.classList.remove("btn-disabled");
+                playBtnElement.textContent = "RESUME";
+                playBtnElement.classList.add("btn-disabled");
+                restartBtnElement.classList.remove("btn-disabled");
+                pauseBtnElement.classList.remove("btn-disabled");
         } else if (gameStatus === "paused" &&
-        !playBtn.classList.contains("btn-disabled")) {
+        !playBtnElement.classList.contains("btn-disabled")) {
                 gameStatus = "running";
                 gameInterval = setInterval(gameLoop, gameSpeedDelay);
-                playBtn.classList.add("btn-disabled");
-                pauseBtn.classList.remove("btn-disabled");
-                message.classList.remove("header-message-paused");
-                message.textContent = `[ You need ${winningScore} points to win. Do your best! ]`;
-                gameBoard.classList.remove("gameboard-paused");
+                playBtnElement.classList.add("btn-disabled");
+                pauseBtnElement.classList.remove("btn-disabled");
+                messageElement.classList.remove("header-message-paused");
+                messageElement.textContent = `[ You need ${winningScore} points to win. Do your best! ]`;
+                gameBoardElement.classList.remove("gameboard-paused");
         }
 }
 
 function handleRestartBtn() {
         if (gameStatus !== "idle" &&
-        !restartBtn.classList.contains("btn-disabled")) {
+        !restartBtnElement.classList.contains("btn-disabled")) {
                 init();
-                playBtn.classList.add("btn-disabled");
-                pauseBtn.classList.remove("btn-disabled");
-                message.classList.remove("header-message-paused");
+                playBtnElement.classList.add("btn-disabled");
+                pauseBtnElement.classList.remove("btn-disabled");
+                messageElement.classList.remove("header-message-paused");
         }
 }
 
 function handlePauseBtn() {
         if (gameStatus === "running" &&
-        !pauseBtn.classList.contains("btn-disabled")) {
+        !pauseBtnElement.classList.contains("btn-disabled")) {
                 gameStatus = "paused";
                 clearInterval(gameInterval);
-                pauseBtn.classList.add("btn-disabled");
-                playBtn.classList.remove("btn-disabled");
-                message.classList.add("header-message-paused");
-                message.textContent = `[ Game is paused. Click "RESUME" to jump back in! ]`;
-                gameBoard.classList.add("gameboard-paused");
+                pauseBtnElement.classList.add("btn-disabled");
+                playBtnElement.classList.remove("btn-disabled");
+                messageElement.classList.add("header-message-paused");
+                messageElement.textContent = `[ Game is paused. Click "RESUME" to jump back in! ]`;
+                gameBoardElement.classList.add("gameboard-paused");
         }
 }
 
@@ -124,7 +129,7 @@ function gameLoop() {
         moveSnake();
         checkWin();
         checkCollision();
-        gameBoard.innerHTML = '';
+        gameBoardElement.innerHTML = '';
         render();
 }
 
@@ -140,16 +145,16 @@ function init() {
         gameSpeedDelay = 250;
         clearInterval(gameInterval);
         gameInterval = setInterval(gameLoop, gameSpeedDelay);
+        updateHighestScore();
         currentScore = 0;
 
         // DOM elements reset
-        message.classList.remove("header-message-win", "header-message-loss");
-        message.textContent = `[ You need ${winningScore} points to win. Do your best! ]`;
-        // highestScore.textContent = ;
-        gameBoard.innerHTML = "";
-        gameBoard.classList.remove("gameboard-win");
-        gameBoard.classList.remove("gameboard-loss");
-        gameBoard.classList.remove("gameboard-paused");
+        messageElement.classList.remove("header-message-win", "header-message-loss");
+        messageElement.textContent = `[ You need ${winningScore} points to win. Do your best! ]`;
+        gameBoardElement.innerHTML = "";
+        gameBoardElement.classList.remove("gameboard-win");
+        gameBoardElement.classList.remove("gameboard-loss");
+        gameBoardElement.classList.remove("gameboard-paused");
 
         // Function calls
         render();
@@ -174,27 +179,33 @@ function increaseSpeed() {
         }
 }
 
-function increaseScore() {
+function updateScore() {
         currentScore += foodScore;
         renderScore();
 }
 
+function updateHighestScore() {
+        if (currentScore > highestScore) {
+                highestScore = currentScore;
+        }
+}
+
 function endGame(reason) {
         clearInterval(gameInterval);
-        pauseBtn.classList.add("btn-disabled");
+        pauseBtnElement.classList.add("btn-disabled");
         gameStatus = "over";
         if (reason === "wall") {
-                message.classList.add("header-message-loss");
-                message.textContent = `[ Oops! You've run into a wall. Click "RESTART" to play again. ]`;
-                gameBoard.classList.add("gameboard-loss");
+                messageElement.classList.add("header-message-loss");
+                messageElement.textContent = `[ Oops! You've run into a wall. Click "RESTART" to play again. ]`;
+                gameBoardElement.classList.add("gameboard-loss");
         } else if (reason === "snake") {
-                message.classList.add("header-message-loss");
-                message.textContent = `[ Oops! You've run into yourself. Click "RESTART" to play again. ]`;
-                gameBoard.classList.add("gameboard-loss");
+                messageElement.classList.add("header-message-loss");
+                messageElement.textContent = `[ Oops! You've run into yourself. Click "RESTART" to play again. ]`;
+                gameBoardElement.classList.add("gameboard-loss");
         } else {
-                message.classList.add("header-message-win");
-                message.textContent = `[ Congratulations, you've won! Click "RESTART" to play again. ]`;
-                gameBoard.classList.add("gameboard-win");
+                messageElement.classList.add("header-message-win");
+                messageElement.textContent = `[ Congratulations, you've won! Click "RESTART" to play again. ]`;
+                gameBoardElement.classList.add("gameboard-win");
         }
 }
 
@@ -247,7 +258,7 @@ function moveSnake() {
         if (snakeHead.column === food.column && snakeHead.row === food.row) {
                 food = generateFood();
                 increaseSpeed();
-                increaseScore();
+                updateScore();
                 clearInterval(gameInterval);
                 gameInterval = setInterval(gameLoop, gameSpeedDelay);
         } else {
@@ -259,33 +270,40 @@ function moveSnake() {
 // RENDER FUNCTIONS
 /* -------------------------------------------------- */
 
+function renderHighestScore() {
+        highestScoreElement.textContent = highestScore.toString().padStart(4, "0");
+}
+
 function renderScore() {
-        score.textContent = currentScore.toString().padStart(4, "0");
+        scoreElement.textContent = currentScore.toString().padStart(4, "0");
 }
 
 function renderSnake() {
         snake.forEach((segment) => {
                 const snakeElement = createGameElement("div", "gameboard-snake");
                 setGameElementPosition(snakeElement, segment);
-                gameBoard.appendChild(snakeElement);
+                gameBoardElement.appendChild(snakeElement);
         });
 }
 
 function renderFood() {
         const foodElement = createGameElement("div", "gameboard-food");
         setGameElementPosition(foodElement, food);
-        gameBoard.appendChild(foodElement);
+        gameBoardElement.appendChild(foodElement);
 }
 
 function render() {
         renderFood();
         renderSnake();
         renderScore();
+        renderHighestScore();
 }
 
-/*----------- Event Listeners ----------*/
+/* -------------------------------------------------- */
+// EVENT LISTENERS
+/* -------------------------------------------------- */
 
-uiControls.forEach((control) => {
+uiControlElements.forEach((control) => {
         control.addEventListener("click", handleClick);
 });
 
