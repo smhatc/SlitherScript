@@ -22,6 +22,8 @@
         --border-gameboard-win: 2px solid var(--color-win);
         --border-gameboard-loss: 2px solid var(--color-loss);
         --border-gameboard-paused: 2px solid var(--color-paused);
+        --border-snake: 0.25vmin solid #f1f1f1;
+        --border-food: 0.25vmin solid #f1f1f1;
 
         --margin-btn: 0.75em auto;
         
@@ -106,10 +108,12 @@ button {
 }
 
 .gameboard-snake {
+        border: var(--border-snake);
         background-color: var(--bg-color-snake);
 }
 
 .gameboard-food {
+        border: var(--border-food);
         background-color: var(--bg-color-food);
 }
 
