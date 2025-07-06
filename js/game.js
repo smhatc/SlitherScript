@@ -29,7 +29,7 @@ const instructionsModalCloseBtnElement = document.querySelector(".instructionsmo
 const playBtnElement = document.querySelector(".footer-playbtn");
 const restartBtnElement = document.querySelector(".footer-restartbtn");
 const pauseBtnElement = document.querySelector(".footer-pausebtn");
-const uiControlElements = [instructionsBtnElement, instructionsModalCloseBtnElement, playBtnElement, restartBtnElement, pauseBtnElement];
+const uiControlElements = [instructionsBtnElement, instructionsModalCloseBtnElement, playBtnElement, restartBtnElement, pauseBtnElement,];
 // Game display elements
 const instructionsModalElement = document.querySelector(".header-instructionsmodal");
 const messageElement = document.querySelector(".header-message");
