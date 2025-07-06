@@ -26,6 +26,7 @@ let currentScore = 0;
 // UI controls
 const uiControlElements = document.querySelectorAll(".ui-control");
 const instructionsBtnElement = document.querySelector(".header-instructionsbtn");
+const instructionsModalElement = document.querySelector(".header-instructionsmodal");
 const playBtnElement = document.querySelector(".footer-playbtn");
 const restartBtnElement = document.querySelector(".footer-restartbtn");
 const pauseBtnElement = document.querySelector(".footer-pausebtn");
@@ -47,7 +48,19 @@ function handleClick(event) {
                 handleRestartBtn();
         } else if (event.target.classList.contains("footer-pausebtn")) {
                 handlePauseBtn();
+        } else if (event.target.classList.contains("header-instructionsbtn")) {
+                handleInstructionsBtn();
+        } else if (event.target.classList.contains("instructionsmodal-closebtn")) {
+                handleInstructionsModalCloseBtn();
         }
+}
+
+function handleInstructionsBtn() {
+        instructionsModalElement.showModal();
+}
+
+function handleInstructionsModalCloseBtn() {
+        instructionsModalElement.close();
 }
 
 function handlePlayBtn() {
@@ -119,10 +132,13 @@ function handleKeyMove(event) {
 /* -------------------------------------------------- */
 
 function generateFood() {
-        const column = Math.floor(Math.random() * gameBoardGrid.columns + 1);
-        const row = Math.floor(Math.random() * gameBoardGrid.rows + 1);
+        let column = Math.floor(Math.random() * gameBoardGrid.columns + 1);
+        let row = Math.floor(Math.random() * gameBoardGrid.rows + 1);
+        while (snake.some((segment) => segment.column === column && segment.row === row )) {
+                column = Math.floor(Math.random() * gameBoardGrid.columns + 1);
+                row = Math.floor(Math.random() * gameBoardGrid.rows + 1);
+        }
         return {column, row};
-        
 }
 
 function gameLoop() {
