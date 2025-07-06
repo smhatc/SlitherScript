@@ -16,8 +16,12 @@
 
         --padding-body: 1em;
         --padding-btn: 0.75em 1em;
+        --padding-modal: 2em;
+        --padding-list: 0 0 0 2em;
 
         --border-btn: 2px solid #f1f1f1;
+        --border-btn-active: 2px solid #96a921;
+        --border-modal: 2px solid #f1f1f1;
         --border-gameboard: 2px solid #f1f1f1;
         --border-gameboard-win: 2px solid var(--color-win);
         --border-gameboard-loss: 2px solid var(--color-loss);
@@ -26,6 +30,10 @@
         --border-food: 0.25vmin solid #f1f1f1;
 
         --margin-btn: 0.75em auto;
+        --margin-hr: 0.5em auto;
+        --margin-modal: 0 auto;
+        --margin-list: 0 auto;
+        --margin-li: 1em 0;
         
         --font-size-h1: 3rem;
         --font-size-h2: 1.25rem;
@@ -67,76 +75,13 @@ button {
         border: var(--border-btn);
         font-size: var(--font-size-btn);
         font-family: inherit;
-        transition: all 0.4s ease;
         cursor: pointer;
+        transition: all 0.4s ease;
         color: inherit;
 }
 
-.header,
-.footer,
-.gameboard {
-        width: 75%;
-        max-width: 750px;
-        text-align: center;
-}
-
-.gameboard {
-        display: grid;
-        grid-template-columns: repeat(21, 1fr);
-        grid-template-rows: repeat(21, 1fr);
-        aspect-ratio: 1 / 1;
-        max-height: calc(100svh - 500px);
-        border: var(--border-gameboard);
-}
-
-@media (max-height: 650px) {
-        .gameboard {
-                max-height: 50svh;
-        }
-}
-
-.gameboard-win {
-        border: var(--border-gameboard-win);
-}
-
-.gameboard-loss {
-        border: var(--border-gameboard-loss);
-}
-
-.gameboard-paused {
-        border: var(--border-gameboard-paused);
-}
-
-.gameboard-snake {
-        border: var(--border-snake);
-        background-color: var(--bg-color-snake);
-}
-
-.gameboard-food {
-        border: var(--border-food);
-        background-color: var(--bg-color-food);
-}
-
-.header-title {
-        font-size: var(--font-size-h1);
-}
-
-.header-subtitle {
-        font-size: var(--font-size-h2);
-}
-
-.header-instructionsbtn,
-.footer-playbtn {
-        min-width: 100%;
-        margin: var(--margin-btn);
-}
-
-.header-instructionsbtn {
-        background-color: var(--bg-color-instructionsbtn);
-}
-
-.footer-playbtn {
-        background-color: var(--bg-color-playbtn);
+button:focus-visible:not(.btn-disabled) {
+        border: var(--border-btn-active);
 }
 
 .btn-disabled {
@@ -144,55 +89,11 @@ button {
         cursor: not-allowed;
 }
 
-.header-score,
-.header-message {
-        font-size: var(--font-size-text);
-}
-
-.header-message-win {
-        color: var(--color-win);
-}
-
-.header-message-loss {
-        color: var(--color-loss);
-}
-
-.header-message-paused {
-        color: var(--color-paused);
-}
-
-.header-score {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 0.25em;
-}
-
-.score-container,
-.highestscore-container {
-        color: var(--color-scores);
-}
-
-.footer-restartpause {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: var(--flex-gap-btn);
-}
-
-.footer-restartbtn,
-.footer-pausebtn {
-        display: block;
-        min-width: calc(50% - var(--flex-gap-btn));
-}
-
-.footer-restartbtn {
-        background-color: var(--bg-color-restartbtn);
-}
-
-.footer-pausebtn {
-        background-color: var(--bg-color-pausebtn);
+hr {
+        width: 75%;
+        height: 0.1rem;
+        margin: var(--margin-hr);
+        background-color: var(--color-text);
 }
 
 @media (max-width: 500px) {

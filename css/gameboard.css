@@ -1,0 +1,39 @@
+.gameboard {
+        display: grid;
+        grid-template-columns: repeat(21, 1fr);
+        grid-template-rows: repeat(21, 1fr);
+        width: 75%;
+        max-width: 750px;
+        max-height: calc(100svh - 500px);
+        aspect-ratio: 1 / 1;
+        border: var(--border-gameboard);
+        text-align: center;
+}
+
+@media (max-height: 650px) {
+        .gameboard {
+                max-height: 50svh;
+        }
+}
+
+.gameboard-win {
+        border: var(--border-gameboard-win);
+}
+
+.gameboard-loss {
+        border: var(--border-gameboard-loss);
+}
+
+.gameboard-paused {
+        border: var(--border-gameboard-paused);
+}
+
+.gameboard-snake {
+        border: var(--border-snake);
+        background-color: var(--bg-color-snake);
+}
+
+.gameboard-food {
+        border: var(--border-food);
+        background-color: var(--bg-color-food);
+}

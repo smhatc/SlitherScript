@@ -1,0 +1,85 @@
+.header,
+.header-instructionsmodal {
+        width: 75%;
+        max-width: 750px;
+        text-align: center;
+}
+
+.header-title {
+        font-size: var(--font-size-h1);
+}
+
+.header-subtitle {
+        font-size: var(--font-size-h2);
+}
+
+.header-instructionsbtn {
+        min-width: 100%;
+        margin: var(--margin-btn);
+        background-color: var(--bg-color-instructionsbtn);
+}
+
+.header-instructionsmodal {
+        top: 1%;
+        z-index: 1;
+        padding: var(--padding-modal);
+        border: var(--border-modal);
+        margin: var(--margin-modal);
+        color: var(--color-text);
+        background-color: var(--bg-color-global);
+}
+
+.header-instructionsmodal::backdrop {
+        opacity: 0.75;
+        background-color: var(--bg-color-global);
+}
+
+.instructionsmodal-title {
+        font-size: var(--font-size-h2);
+}
+
+.instructionsmodal-list {
+        max-width: 75%;
+        padding: var(--padding-list);
+        margin: var(--margin-list);
+        text-align: left;
+}
+
+.instructionsmodal-li {
+        margin: var(--margin-li);
+        font-size: var(--font-size-text);
+}
+
+.instructionsmodal-closebtn {
+        min-width: 100%;
+        background-color: var(--bg-color-instructionsbtn);
+}
+
+.header-message,
+.header-score {
+        font-size: var(--font-size-text);
+}
+
+.header-message-win {
+        color: var(--color-win);
+}
+
+.header-message-loss {
+        color: var(--color-loss);
+}
+
+.header-message-paused {
+        color: var(--color-paused);
+}
+
+.header-score {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0.25em;
+}
+
+.score-container,
+.highestscore-container {
+        color: var(--color-scores);
+}

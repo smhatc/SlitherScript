@@ -1,0 +1,36 @@
+.footer {
+        width: 75%;
+        max-width: 750px;
+        text-align: center;
+}
+
+.footer-playbtn {
+        min-width: 100%;
+        margin: var(--margin-btn);
+}
+
+.footer-playbtn {
+        background-color: var(--bg-color-playbtn);
+}
+
+.footer-restartpause {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--flex-gap-btn);
+}
+
+.footer-restartbtn,
+.footer-pausebtn {
+        display: block;
+        min-width: calc(50% - var(--flex-gap-btn));
+}
+
+.footer-restartbtn {
+        background-color: var(--bg-color-restartbtn);
+}
+
+.footer-pausebtn {
+        background-color: var(--bg-color-pausebtn);
+}
