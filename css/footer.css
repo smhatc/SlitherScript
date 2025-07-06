@@ -7,9 +7,6 @@
 .footer-playbtn {
         min-width: 100%;
         margin: var(--margin-btn);
-}
-
-.footer-playbtn {
         background-color: var(--bg-color-playbtn);
 }
 
