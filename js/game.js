@@ -98,19 +98,30 @@ function handleKeyMove(event) {
         const movementKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
         if (gameStatus === "running" && movementKeys.includes(event.key)) {
                 event.preventDefault();
-                switch (event.key) {
-                        case movementKeys[0]:
+                if (event.key === movementKeys[0]) {
+                        if (snake.length > 1) {
+                                if (snakeDirection !== "down") snakeDirection = "up";
+                        } else {
                                 snakeDirection = "up";
-                                break;
-                        case movementKeys[1]:
+                        }
+                } else if (event.key === movementKeys[1]) {
+                        if (snake.length > 1) {
+                                if (snakeDirection !== "up") snakeDirection = "down";
+                        } else {
                                 snakeDirection = "down";
-                                break;
-                        case movementKeys[2]:
+                        }
+                } else if (event.key === movementKeys[2]) {
+                        if (snake.length > 1) {
+                                if (snakeDirection !== "right") snakeDirection = "left";
+                        } else {
                                 snakeDirection = "left";
-                                break;
-                        case movementKeys[3]:
+                        }
+                } else if (event.key === movementKeys[3]) {
+                        if (snake.length > 1) {
+                                if (snakeDirection !== "left") snakeDirection = "right";
+                        } else {
                                 snakeDirection = "right";
-                                break;
+                        }
                 }
         }
 }
