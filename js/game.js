@@ -2,9 +2,9 @@
 // CONSTANTS
 /* -------------------------------------------------- */
 
-const gameBoardGrid = {columns: 21, rows: 21,};
-const winningScore = 1000;
 const foodScore = 25;
+const winningScore = 1000;
+const gameBoard = {columns: 21, rows: 21,};
 
 /* -------------------------------------------------- */
 // VARIABLES (STATE)
@@ -24,14 +24,14 @@ let currentScore = 0;
 /* -------------------------------------------------- */
 
 // UI controls
-const uiControlElements = document.querySelectorAll(".ui-control");
 const instructionsBtnElement = document.querySelector(".header-instructionsbtn");
-const instructionsModalElement = document.querySelector(".header-instructionsmodal");
+const instructionsModalCloseBtnElement = document.querySelector(".instructionsmodal-closebtn");
 const playBtnElement = document.querySelector(".footer-playbtn");
 const restartBtnElement = document.querySelector(".footer-restartbtn");
 const pauseBtnElement = document.querySelector(".footer-pausebtn");
-
+const uiControlElements = [instructionsBtnElement, instructionsModalCloseBtnElement, playBtnElement, restartBtnElement, pauseBtnElement];
 // Game display elements
+const instructionsModalElement = document.querySelector(".header-instructionsmodal");
 const messageElement = document.querySelector(".header-message");
 const highestScoreElement = document.querySelector(".highestscore-container");
 const scoreElement = document.querySelector(".score-container");
@@ -41,71 +41,59 @@ const gameBoardElement = document.querySelector(".gameboard");
 // EVENT HANDLER FUNCTIONS
 /* -------------------------------------------------- */
 
+// Handler for the UI control elements
 function handleClick(event) {
-        if (event.target.classList.contains("footer-playbtn")) {
-                handlePlayBtn();
-        } else if (event.target.classList.contains("footer-restartbtn")) {
-                handleRestartBtn();
-        } else if (event.target.classList.contains("footer-pausebtn")) {
-                handlePauseBtn();
-        } else if (event.target.classList.contains("header-instructionsbtn")) {
+        if (event.target === instructionsBtnElement) {
                 handleInstructionsBtn();
-        } else if (event.target.classList.contains("instructionsmodal-closebtn")) {
+        } else if (event.target === instructionsModalCloseBtnElement) {
                 handleInstructionsModalCloseBtn();
+        } else if (event.target === playBtnElement) {
+                handlePlayBtn();
+        } else if (event.target === restartBtnElement) {
+                handleRestartBtn();
+        } else if (event.target === pauseBtnElement) {
+                handlePauseBtn();
         }
 }
 
+// Shows game instructions modal
 function handleInstructionsBtn() {
         instructionsModalElement.showModal();
 }
 
+// Closes game instructions modal
 function handleInstructionsModalCloseBtn() {
         instructionsModalElement.close();
 }
 
+// Starts or resumes the game
 function handlePlayBtn() {
         if (gameStatus === "idle" &&
         !playBtnElement.classList.contains("btn-disabled")) {
                 init();
-                playBtnElement.textContent = "RESUME";
-                playBtnElement.classList.add("btn-disabled");
-                restartBtnElement.classList.remove("btn-disabled");
-                pauseBtnElement.classList.remove("btn-disabled");
         } else if (gameStatus === "paused" &&
         !playBtnElement.classList.contains("btn-disabled")) {
-                gameStatus = "running";
-                gameInterval = setInterval(gameLoop, gameSpeedDelay);
-                playBtnElement.classList.add("btn-disabled");
-                pauseBtnElement.classList.remove("btn-disabled");
-                messageElement.classList.remove("header-message-paused");
-                messageElement.textContent = `[ You need ${winningScore} points to win. Do your best! ]`;
-                gameBoardElement.classList.remove("gameboard-paused");
+                resume();
         }
 }
 
+// Restarts the game
 function handleRestartBtn() {
         if (gameStatus !== "idle" &&
         !restartBtnElement.classList.contains("btn-disabled")) {
                 init();
-                playBtnElement.classList.add("btn-disabled");
-                pauseBtnElement.classList.remove("btn-disabled");
-                messageElement.classList.remove("header-message-paused");
         }
 }
 
+// Pauses the game
 function handlePauseBtn() {
         if (gameStatus === "running" &&
         !pauseBtnElement.classList.contains("btn-disabled")) {
-                gameStatus = "paused";
-                clearInterval(gameInterval);
-                pauseBtnElement.classList.add("btn-disabled");
-                playBtnElement.classList.remove("btn-disabled");
-                messageElement.classList.add("header-message-paused");
-                messageElement.textContent = `[ Game is paused. Click "RESUME" to jump back in! ]`;
-                gameBoardElement.classList.add("gameboard-paused");
+                pause();
         }
 }
 
+// Changes the snake's direction based on the pressed key
 function handleKeyMove(event) {
         const movementKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
         if (gameStatus === "running" && movementKeys.includes(event.key)) {
@@ -128,29 +116,12 @@ function handleKeyMove(event) {
 }
 
 /* -------------------------------------------------- */
-// GAME LOGIC FUNCTIONS
+// GAME STATE CONTROL FUNCTIONS
 /* -------------------------------------------------- */
 
-function generateFood() {
-        let column = Math.floor(Math.random() * gameBoardGrid.columns + 1);
-        let row = Math.floor(Math.random() * gameBoardGrid.rows + 1);
-        while (snake.some((segment) => segment.column === column && segment.row === row )) {
-                column = Math.floor(Math.random() * gameBoardGrid.columns + 1);
-                row = Math.floor(Math.random() * gameBoardGrid.rows + 1);
-        }
-        return {column, row};
-}
-
-function gameLoop() {
-        moveSnake();
-        checkWin();
-        checkCollision();
-        gameBoardElement.innerHTML = '';
-        render();
-}
-
+// Initializes the game's state
 function init() {
-        // JavaScript variables reset
+        // Reset the game state
         gameStatus = "running";
         snake =
         [
@@ -163,18 +134,55 @@ function init() {
         gameInterval = setInterval(gameLoop, gameSpeedDelay);
         updateHighestScore();
         currentScore = 0;
-
-        // DOM elements reset
-        messageElement.classList.remove("header-message-win", "header-message-loss");
+        // Reset the DOM elements
+        messageElement.classList.remove("header-message-win", "header-message-loss", "header-message-paused");
         messageElement.textContent = `[ You need ${winningScore} points to win. Do your best! ]`;
-        gameBoardElement.innerHTML = "";
         gameBoardElement.classList.remove("gameboard-win");
         gameBoardElement.classList.remove("gameboard-loss");
         gameBoardElement.classList.remove("gameboard-paused");
-
-        // Function calls
+        gameBoardElement.innerHTML = "";
+        playBtnElement.classList.add("btn-disabled");
+        playBtnElement.textContent = "RESUME";
+        restartBtnElement.classList.remove("btn-disabled");
+        pauseBtnElement.classList.remove("btn-disabled");
+        // Display to the screen
         render();
 }
+
+// Temporarily stops the game
+function pause() {
+        gameStatus = "paused";
+        clearInterval(gameInterval);
+        messageElement.classList.add("header-message-paused");
+        messageElement.textContent = `[ Game is paused. Click "RESUME" to jump back in! ]`;
+        gameBoardElement.classList.add("gameboard-paused");
+        playBtnElement.classList.remove("btn-disabled");
+        pauseBtnElement.classList.add("btn-disabled");
+}
+
+// Resumes the game from a paused state
+function resume() {
+        gameStatus = "running";
+        gameInterval = setInterval(gameLoop, gameSpeedDelay);
+        messageElement.classList.remove("header-message-paused");
+        messageElement.textContent = `[ You need ${winningScore} points to win. Do your best! ]`;
+        gameBoardElement.classList.remove("gameboard-paused");
+        playBtnElement.classList.add("btn-disabled");
+        pauseBtnElement.classList.remove("btn-disabled");
+}
+
+// The main game loop
+function gameLoop() {
+        moveSnake();
+        checkWin();
+        checkCollision();
+        gameBoardElement.innerHTML = '';
+        render();
+}
+
+/* -------------------------------------------------- */
+// GAME LOGIC FUNCTIONS
+/* -------------------------------------------------- */
 
 // Creates the snake or food cubes
 function createGameElement(element, elementClass) {
@@ -189,71 +197,7 @@ function setGameElementPosition(element, position) {
         element.style.gridRow = position.row;
 }
 
-function increaseSpeed() {
-        if (gameSpeedDelay > 50) {
-                gameSpeedDelay -= 5;
-        }
-}
-
-function updateScore() {
-        currentScore += foodScore;
-        renderScore();
-}
-
-function updateHighestScore() {
-        if (currentScore > highestScore) {
-                highestScore = currentScore;
-        }
-}
-
-function endGame(reason) {
-        clearInterval(gameInterval);
-        pauseBtnElement.classList.add("btn-disabled");
-        gameStatus = "over";
-        if (reason === "wall") {
-                messageElement.classList.add("header-message-loss");
-                messageElement.textContent = `[ Oops! You've run into a wall. Click "RESTART" to play again. ]`;
-                gameBoardElement.classList.add("gameboard-loss");
-        } else if (reason === "snake") {
-                messageElement.classList.add("header-message-loss");
-                messageElement.textContent = `[ Oops! You've run into yourself. Click "RESTART" to play again. ]`;
-                gameBoardElement.classList.add("gameboard-loss");
-        } else {
-                messageElement.classList.add("header-message-win");
-                messageElement.textContent = `[ Congratulations, you've won! Click "RESTART" to play again. ]`;
-                gameBoardElement.classList.add("gameboard-win");
-        }
-}
-
-function checkWin() {
-        if (currentScore >= winningScore) {
-                endGame();
-        }
-}
-
-function checkCollision() {
-        const snakeHead = snake[0];
-        let whichCollision = "";
-
-        // Check if the snake has into a wall
-        if (snakeHead.column < 1 ||
-        snakeHead.column > gameBoardGrid.columns ||
-        snakeHead.row < 1 ||
-        snakeHead.row > gameBoardGrid.rows) {
-                whichCollision = "wall";
-                endGame(whichCollision);
-        }
-
-        // Check if the snake has run into itself
-        for (let i = 1; i < snake.length; i++) {
-                if (snakeHead.column === snake[i].column &&
-                snakeHead.row === snake[i].row) {
-                        whichCollision = "snake";
-                        endGame(whichCollision);
-                }
-        }
-}
-
+// Moves the snake
 function moveSnake() {
         const snakeHead = {...snake[0]};
         switch (snakeDirection) {
@@ -282,18 +226,101 @@ function moveSnake() {
         }
 }
 
+// Creates food elements at random locations across the game board
+function generateFood() {
+        let column = Math.floor(Math.random() * gameBoard.columns + 1);
+        let row = Math.floor(Math.random() * gameBoard.rows + 1);
+        while (snake.some((segment) => segment.column === column && segment.row === row )) {
+                column = Math.floor(Math.random() * gameBoard.columns + 1);
+                row = Math.floor(Math.random() * gameBoard.rows + 1);
+        }
+        return {column, row};
+}
+
+// Increases the snake's speed each time it consumes food
+function increaseSpeed() {
+        if (gameSpeedDelay > 50) {
+                gameSpeedDelay -= 5;
+        }
+}
+
+// Updates the highest score at the start of each game
+function updateHighestScore() {
+        if (currentScore > highestScore) {
+                highestScore = currentScore;
+        }
+}
+
+// Updates the current score each time the snake consumes food
+function updateScore() {
+        currentScore += foodScore;
+        renderScore();
+}
+
+// Checks if the player has reached the points required to win the game
+function checkWin() {
+        if (currentScore >= winningScore) {
+                endGame();
+        }
+}
+
+// Checks if the player has collided with a wall or the snake's body
+function checkCollision() {
+        const snakeHead = snake[0];
+        let whichCollision = "";
+        // Check if the snake has run into a wall
+        if (snakeHead.column < 1 ||
+        snakeHead.column > gameBoard.columns ||
+        snakeHead.row < 1 ||
+        snakeHead.row > gameBoard.rows) {
+                whichCollision = "wall";
+                endGame(whichCollision);
+        }
+        // Check if the snake has run into itself
+        for (let i = 1; i < snake.length; i++) {
+                if (snakeHead.column === snake[i].column &&
+                snakeHead.row === snake[i].row) {
+                        whichCollision = "snake";
+                        endGame(whichCollision);
+                }
+        }
+}
+
+// Ends the game (win or loss) and takes specific actions depending on the reason
+function endGame(reason) {
+        clearInterval(gameInterval);
+        pauseBtnElement.classList.add("btn-disabled");
+        gameStatus = "over";
+        if (reason === "wall") {
+                messageElement.classList.add("header-message-loss");
+                messageElement.textContent = `[ Oops! You've run into a wall. Click "RESTART" to play again. ]`;
+                gameBoardElement.classList.add("gameboard-loss");
+        } else if (reason === "snake") {
+                messageElement.classList.add("header-message-loss");
+                messageElement.textContent = `[ Oops! You've run into yourself. Click "RESTART" to play again. ]`;
+                gameBoardElement.classList.add("gameboard-loss");
+        } else {
+                messageElement.classList.add("header-message-win");
+                messageElement.textContent = `[ Congratulations, you've won! Click "RESTART" to play again. ]`;
+                gameBoardElement.classList.add("gameboard-win");
+        }
+}
+
 /* -------------------------------------------------- */
 // RENDER FUNCTIONS
 /* -------------------------------------------------- */
 
+// Displays the highest score to the player
 function renderHighestScore() {
         highestScoreElement.textContent = highestScore.toString().padStart(4, "0");
 }
 
+// Displays the current score to the player
 function renderScore() {
         scoreElement.textContent = currentScore.toString().padStart(4, "0");
 }
 
+// Displays the snake to the player
 function renderSnake() {
         snake.forEach((segment) => {
                 const snakeElement = createGameElement("div", "gameboard-snake");
@@ -302,25 +329,29 @@ function renderSnake() {
         });
 }
 
+// Displays the food elements to the player
 function renderFood() {
         const foodElement = createGameElement("div", "gameboard-food");
         setGameElementPosition(foodElement, food);
         gameBoardElement.appendChild(foodElement);
 }
 
+// Meta function to call all other render functions
 function render() {
-        renderFood();
-        renderSnake();
-        renderScore();
         renderHighestScore();
+        renderScore();
+        renderSnake();
+        renderFood();
 }
 
 /* -------------------------------------------------- */
 // EVENT LISTENERS
 /* -------------------------------------------------- */
 
+// On-screen button event listeners
 uiControlElements.forEach((control) => {
         control.addEventListener("click", handleClick);
 });
 
+// Keyboard press event listeners
 document.addEventListener("keydown", handleKeyMove);
