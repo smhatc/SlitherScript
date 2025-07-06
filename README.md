@@ -3,6 +3,10 @@ The official GitHub repository for SlitherScript, a simple yet fun snake game bu
 
 <img src="assets/images/completed-game-screenshot.png" alt="Screenshot of the Completed Game">
 
+## 📃 Description
+SlitherScript is a snake game in which you control a snake with the goal of eating food which spawns randomly across the game board. Each food you eat grows both your snake's size and current score. If you reach 1000 points without running into any walls or yourself, you win!
+
+
 ## 🔍 Background Information
 I am creating this project as part of my studies at General Assembly's software engineering bootcamp.
 
