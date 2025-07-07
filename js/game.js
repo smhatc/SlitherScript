@@ -26,10 +26,25 @@ let currentScore = 0;
 // UI controls
 const instructionsBtnElement = document.querySelector(".header-instructionsbtn");
 const instructionsModalCloseBtnElement = document.querySelector(".instructionsmodal-closebtn");
+const snakeCtrlsUpBtnElement = document.querySelector(".snakectrls-up");
+const snakeCtrlsLeftBtnElement = document.querySelector(".snakectrls-left");
+const snakeCtrlsDownBtnElement = document.querySelector(".snakectrls-down");
+const snakeCtrlsRightBtnElement = document.querySelector(".snakectrls-right");
 const playBtnElement = document.querySelector(".footer-playbtn");
 const restartBtnElement = document.querySelector(".footer-restartbtn");
 const pauseBtnElement = document.querySelector(".footer-pausebtn");
-const uiControlElements = [instructionsBtnElement, instructionsModalCloseBtnElement, playBtnElement, restartBtnElement, pauseBtnElement,];
+const uiControlElements =
+        [
+                instructionsBtnElement,
+                instructionsModalCloseBtnElement,
+                snakeCtrlsUpBtnElement,
+                snakeCtrlsLeftBtnElement,
+                snakeCtrlsDownBtnElement,
+                snakeCtrlsRightBtnElement,
+                playBtnElement,
+                restartBtnElement,
+                pauseBtnElement,
+        ];
 // Game display elements
 const instructionsModalElement = document.querySelector(".header-instructionsmodal");
 const messageElement = document.querySelector(".header-message");
@@ -47,6 +62,11 @@ function handleClick(event) {
                 handleInstructionsBtn();
         } else if (event.target === instructionsModalCloseBtnElement) {
                 handleInstructionsModalCloseBtn();
+        } else if (event.target === snakeCtrlsUpBtnElement ||
+        event.target === snakeCtrlsLeftBtnElement ||
+        event.target === snakeCtrlsDownBtnElement ||
+        event.target === snakeCtrlsRightBtnElement) {
+                handleBtnMove(event);
         } else if (event.target === playBtnElement) {
                 handlePlayBtn();
         } else if (event.target === restartBtnElement) {
@@ -93,30 +113,28 @@ function handlePauseBtn() {
         }
 }
 
-// Changes the snake's direction based on the pressed key
-function handleKeyMove(event) {
-        const movementKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
-        if (gameStatus === "running" && movementKeys.includes(event.key)) {
-                event.preventDefault();
-                if (event.key === movementKeys[0]) {
+// Generic function to be used by both "handleBtnMove" and "handleKeyMove"
+function handleMove(moveSource, ctrlsArray) {
+        if (gameStatus === "running" && ctrlsArray.includes(moveSource)) {
+                if (moveSource === ctrlsArray[0]) {
                         if (snake.length > 1) {
                                 if (snakeDirection !== "down") snakeDirection = "up";
                         } else {
                                 snakeDirection = "up";
                         }
-                } else if (event.key === movementKeys[1]) {
+                } else if (moveSource === ctrlsArray[1]) {
                         if (snake.length > 1) {
                                 if (snakeDirection !== "up") snakeDirection = "down";
                         } else {
                                 snakeDirection = "down";
                         }
-                } else if (event.key === movementKeys[2]) {
+                } else if (moveSource === ctrlsArray[2]) {
                         if (snake.length > 1) {
                                 if (snakeDirection !== "right") snakeDirection = "left";
                         } else {
                                 snakeDirection = "left";
                         }
-                } else if (event.key === movementKeys[3]) {
+                } else if (moveSource === ctrlsArray[3]) {
                         if (snake.length > 1) {
                                 if (snakeDirection !== "left") snakeDirection = "right";
                         } else {
@@ -124,6 +142,19 @@ function handleKeyMove(event) {
                         }
                 }
         }
+}
+
+// Changes the snake's direction based on the clicked on-screen button
+function handleBtnMove(event) {
+        const movementBtns = [snakeCtrlsUpBtnElement, snakeCtrlsDownBtnElement, snakeCtrlsLeftBtnElement, snakeCtrlsRightBtnElement,];
+        handleMove(event.target, movementBtns);
+}
+
+// Changes the snake's direction based on the pressed key
+function handleKeyMove(event) {
+        const movementKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',];
+        event.preventDefault();
+        handleMove(event.key, movementKeys);
 }
 
 /* -------------------------------------------------- */
