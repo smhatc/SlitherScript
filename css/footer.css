@@ -4,6 +4,42 @@
         text-align: center;
 }
 
+.snakectrls-showbtn {
+        min-width: 100%;
+        margin: var(--margin-btn);
+        background-color: var(--bg-color-snakectrlsbtn);
+}
+
+.footer-snakectrls {
+        display: none;
+        padding: var(--padding-ctrls);
+        border: var(--border-snakectrls);
+}
+
+@media (max-width: 1024px) {
+        .footer-snakectrls {
+                display: block;
+        }
+}
+
+.snakectrls-bottomrow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--flex-gap-btn);
+}
+
+.snakectrls {
+        min-width: calc(33% - var(--flex-gap-btn));
+        border: var(--border-snakectrls);
+        background-color: var(--bg-color-snakectrlsbtn);
+}
+
+.snakectrls-up {
+        min-width: 100%;
+        margin: var(--margin-snakectrlsupbtn);
+}
+
 .footer-playbtn {
         min-width: 100%;
         margin: var(--margin-btn);

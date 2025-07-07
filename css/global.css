@@ -16,8 +16,9 @@
 
         --padding-body: 1em;
         --padding-btn: 0.75em 1em;
-        --padding-modal: 2em;
-        --padding-list: 0 0 0 2em;
+        --padding-modal: 0.5em;
+        --padding-list: 0 0 0 1em;
+        --padding-ctrls: 0.5em;
 
         --border-btn: 2px solid #f1f1f1;
         --border-btn-active: 2px solid #96a921;
@@ -28,8 +29,10 @@
         --border-gameboard-paused: 2px solid var(--color-paused);
         --border-snake: 0.25vmin solid #f1f1f1;
         --border-food: 0.25vmin solid #f1f1f1;
+        --border-snakectrls: 2px solid #f1f1f1;
 
         --margin-btn: 0.75em auto;
+        --margin-snakectrlsupbtn: 0 0 0.5em;
         --margin-hr: 0.5em auto;
         --margin-modal: 0 auto;
         --margin-list: 0 auto;
@@ -52,6 +55,7 @@
         --bg-color-snake: #96a921;
         --bg-color-food: #77303a;
         --bg-color-instructionsbtn: #154063;
+        --bg-color-snakectrlsbtn: transparent;
         --bg-color-playbtn: #043a0d;
         --bg-color-restartbtn: #631520;
         --bg-color-pausebtn: #806313;
@@ -90,7 +94,7 @@ button:focus:not(.btn-disabled) {
 }
 
 hr {
-        width: 75%;
+        width: 90%;
         height: 0.1rem;
         margin: var(--margin-hr);
         background-color: var(--color-text);

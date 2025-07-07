@@ -4,7 +4,7 @@
         grid-template-rows: repeat(21, 1fr);
         width: 75%;
         max-width: 750px;
-        max-height: calc(100svh - 500px);
+        max-height: calc(100svh - 550px);
         aspect-ratio: 1 / 1;
         border: var(--border-gameboard);
         text-align: center;
