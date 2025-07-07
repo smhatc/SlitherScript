@@ -19,7 +19,7 @@ The reason I chose to create a snake game as my project is simply because I foun
 
 **Game Instructions:**
 1. Click the "PLAY" button.
-2. Press any of the four arrow keys on your keyboard to control the snake's movement.
+2. Use the on-screen controls or any of the four arrow keys on your keyboard to control the snake's movement.
 3. Move over (eat) the food that spawns to grow your snake and score.
 4. Avoid running into any walls or yourself.
 5. Click the "PAUSE" button to stop the game in case you need to take a break.
