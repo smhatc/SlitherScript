@@ -129,8 +129,9 @@ function handlePauseBtn() {
 }
 
 // Generic function to be used by both "handleBtnMove" and "handleKeyMove"
-function handleMove(moveSource, ctrlsArray) {
+function handleMove(event, moveSource, ctrlsArray) {
         if (gameStatus === "running" && ctrlsArray.includes(moveSource)) {
+                if (event) event.preventDefault();
                 if (moveSource === ctrlsArray[0]) {
                         if (snake.length > 1) {
                                 if (snakeDirection !== "down") snakeDirection = "up";
@@ -163,15 +164,14 @@ function handleMove(moveSource, ctrlsArray) {
 function handleBtnMove(event) {
         if (!event.target.classList.contains("btn-disabled")) {
                 const movementBtns = [snakeCtrlsUpBtnElement, snakeCtrlsDownBtnElement, snakeCtrlsLeftBtnElement, snakeCtrlsRightBtnElement,];
-                handleMove(event.target, movementBtns);
+                handleMove(null, event.target, movementBtns);
         }
 }
 
 // Changes the snake's direction based on the pressed key
 function handleKeyMove(event) {
         const movementKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',];
-        event.preventDefault();
-        handleMove(event.key, movementKeys);
+        handleMove(event, event.key, movementKeys);
 }
 
 /* -------------------------------------------------- */
