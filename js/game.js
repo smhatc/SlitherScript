@@ -27,6 +27,7 @@ let currentScore = 0;
 const instructionsBtnElement = document.querySelector(".header-instructionsbtn");
 const instructionsModalCloseBtnElement = document.querySelector(".instructionsmodal-closebtn");
 const snakeCtrlsElement = document.querySelector(".footer-snakectrls");
+const snakeCtrlBtnElements = document.querySelectorAll(".snakectrls");
 const snakeCtrlsUpBtnElement = document.querySelector(".snakectrls-up");
 const snakeCtrlsLeftBtnElement = document.querySelector(".snakectrls-left");
 const snakeCtrlsDownBtnElement = document.querySelector(".snakectrls-down");
@@ -160,8 +161,10 @@ function handleMove(moveSource, ctrlsArray) {
 
 // Changes the snake's direction based on the clicked on-screen button
 function handleBtnMove(event) {
-        const movementBtns = [snakeCtrlsUpBtnElement, snakeCtrlsDownBtnElement, snakeCtrlsLeftBtnElement, snakeCtrlsRightBtnElement,];
-        handleMove(event.target, movementBtns);
+        if (!event.target.classList.contains("btn-disabled")) {
+                const movementBtns = [snakeCtrlsUpBtnElement, snakeCtrlsDownBtnElement, snakeCtrlsLeftBtnElement, snakeCtrlsRightBtnElement,];
+                handleMove(event.target, movementBtns);
+        }
 }
 
 // Changes the snake's direction based on the pressed key
@@ -197,6 +200,7 @@ function init() {
         gameBoardElement.classList.remove("gameboard-loss");
         gameBoardElement.classList.remove("gameboard-paused");
         gameBoardElement.innerHTML = "";
+        snakeCtrlBtnElements.forEach(control => control.classList.remove("btn-disabled"));
         playBtnElement.classList.add("btn-disabled");
         playBtnElement.textContent = "RESUME";
         restartBtnElement.classList.remove("btn-disabled");
@@ -212,6 +216,7 @@ function pause() {
         messageElement.classList.add("header-message-paused");
         messageElement.textContent = `[ Game is paused. Click "RESUME" to jump back in! ]`;
         gameBoardElement.classList.add("gameboard-paused");
+        snakeCtrlBtnElements.forEach(control => control.classList.add("btn-disabled"));
         playBtnElement.classList.remove("btn-disabled");
         pauseBtnElement.classList.add("btn-disabled");
 }
@@ -223,6 +228,7 @@ function resume() {
         messageElement.classList.remove("header-message-paused");
         messageElement.textContent = `[ You need ${winningScore} points to win. Do your best! ]`;
         gameBoardElement.classList.remove("gameboard-paused");
+        snakeCtrlBtnElements.forEach(control => control.classList.remove("btn-disabled"));
         playBtnElement.classList.add("btn-disabled");
         pauseBtnElement.classList.remove("btn-disabled");
 }
