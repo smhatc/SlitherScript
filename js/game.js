@@ -4,7 +4,7 @@
 
 const foodScore = 25;
 const winningScore = 1000;
-const gameBoard = {columns: 21, rows: 21,};
+const gameBoard = { columns: 21, rows: 21, };
 
 /* -------------------------------------------------- */
 // VARIABLES (STATE)
@@ -26,10 +26,12 @@ let currentScore = 0;
 // UI controls
 const instructionsBtnElement = document.querySelector(".header-instructionsbtn");
 const instructionsModalCloseBtnElement = document.querySelector(".instructionsmodal-closebtn");
+const snakeCtrlsElement = document.querySelector(".footer-snakectrls");
 const snakeCtrlsUpBtnElement = document.querySelector(".snakectrls-up");
 const snakeCtrlsLeftBtnElement = document.querySelector(".snakectrls-left");
 const snakeCtrlsDownBtnElement = document.querySelector(".snakectrls-down");
 const snakeCtrlsRightBtnElement = document.querySelector(".snakectrls-right");
+const snakeCtrlsShowBtnElement = document.querySelector(".snakectrls-showbtn");
 const playBtnElement = document.querySelector(".footer-playbtn");
 const restartBtnElement = document.querySelector(".footer-restartbtn");
 const pauseBtnElement = document.querySelector(".footer-pausebtn");
@@ -41,6 +43,7 @@ const uiControlElements =
                 snakeCtrlsLeftBtnElement,
                 snakeCtrlsDownBtnElement,
                 snakeCtrlsRightBtnElement,
+                snakeCtrlsShowBtnElement,
                 playBtnElement,
                 restartBtnElement,
                 pauseBtnElement,
@@ -63,10 +66,12 @@ function handleClick(event) {
         } else if (event.target === instructionsModalCloseBtnElement) {
                 handleInstructionsModalCloseBtn();
         } else if (event.target === snakeCtrlsUpBtnElement ||
-        event.target === snakeCtrlsLeftBtnElement ||
-        event.target === snakeCtrlsDownBtnElement ||
-        event.target === snakeCtrlsRightBtnElement) {
+                event.target === snakeCtrlsLeftBtnElement ||
+                event.target === snakeCtrlsDownBtnElement ||
+                event.target === snakeCtrlsRightBtnElement) {
                 handleBtnMove(event);
+        } else if (event.target === snakeCtrlsShowBtnElement) {
+                handleSnakeCtrlsToggleBtn();
         } else if (event.target === playBtnElement) {
                 handlePlayBtn();
         } else if (event.target === restartBtnElement) {
@@ -86,13 +91,22 @@ function handleInstructionsModalCloseBtn() {
         instructionsModalElement.close();
 }
 
+// Shows/hides the on-screen controls
+function handleSnakeCtrlsToggleBtn() {
+        if (snakeCtrlsElement.style.display === "none") {
+                snakeCtrlsElement.style.display = "block";
+        } else {
+                snakeCtrlsElement.style.display = "none";
+        }
+}
+
 // Starts or resumes the game
 function handlePlayBtn() {
         if (gameStatus === "idle" &&
-        !playBtnElement.classList.contains("btn-disabled")) {
+                !playBtnElement.classList.contains("btn-disabled")) {
                 init();
         } else if (gameStatus === "paused" &&
-        !playBtnElement.classList.contains("btn-disabled")) {
+                !playBtnElement.classList.contains("btn-disabled")) {
                 resume();
         }
 }
@@ -100,7 +114,7 @@ function handlePlayBtn() {
 // Restarts the game
 function handleRestartBtn() {
         if (gameStatus !== "idle" &&
-        !restartBtnElement.classList.contains("btn-disabled")) {
+                !restartBtnElement.classList.contains("btn-disabled")) {
                 init();
         }
 }
@@ -108,7 +122,7 @@ function handleRestartBtn() {
 // Pauses the game
 function handlePauseBtn() {
         if (gameStatus === "running" &&
-        !pauseBtnElement.classList.contains("btn-disabled")) {
+                !pauseBtnElement.classList.contains("btn-disabled")) {
                 pause();
         }
 }
@@ -166,9 +180,9 @@ function init() {
         // Reset the game state
         gameStatus = "running";
         snake =
-        [
-                {column: 11, row: 11,},
-        ];
+                [
+                        { column: 11, row: 11, },
+                ];
         snakeDirection = "up";
         food = generateFood();
         gameSpeedDelay = 250;
@@ -241,7 +255,7 @@ function setGameElementPosition(element, position) {
 
 // Moves the snake
 function moveSnake() {
-        const snakeHead = {...snake[0]};
+        const snakeHead = { ...snake[0] };
         switch (snakeDirection) {
                 case "up":
                         snakeHead.row--;
@@ -272,11 +286,11 @@ function moveSnake() {
 function generateFood() {
         let column = Math.floor(Math.random() * gameBoard.columns + 1);
         let row = Math.floor(Math.random() * gameBoard.rows + 1);
-        while (snake.some((segment) => segment.column === column && segment.row === row )) {
+        while (snake.some((segment) => segment.column === column && segment.row === row)) {
                 column = Math.floor(Math.random() * gameBoard.columns + 1);
                 row = Math.floor(Math.random() * gameBoard.rows + 1);
         }
-        return {column, row};
+        return { column, row };
 }
 
 // Increases the snake's speed each time it consumes food
@@ -312,16 +326,16 @@ function checkCollision() {
         let whichCollision = "";
         // Check if the snake has run into a wall
         if (snakeHead.column < 1 ||
-        snakeHead.column > gameBoard.columns ||
-        snakeHead.row < 1 ||
-        snakeHead.row > gameBoard.rows) {
+                snakeHead.column > gameBoard.columns ||
+                snakeHead.row < 1 ||
+                snakeHead.row > gameBoard.rows) {
                 whichCollision = "wall";
                 endGame(whichCollision);
         }
         // Check if the snake has run into itself
         for (let i = 1; i < snake.length; i++) {
                 if (snakeHead.column === snake[i].column &&
-                snakeHead.row === snake[i].row) {
+                        snakeHead.row === snake[i].row) {
                         whichCollision = "snake";
                         endGame(whichCollision);
                 }
