@@ -352,6 +352,7 @@ function checkCollision() {
 function endGame(reason) {
         clearInterval(gameInterval);
         pauseBtnElement.classList.add("btn-disabled");
+        snakeCtrlBtnElements.forEach(control => control.classList.add("btn-disabled"));
         gameStatus = "over";
         if (reason === "wall") {
                 messageElement.classList.add("header-message-loss");
